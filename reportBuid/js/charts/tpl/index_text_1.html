@@ -1,0 +1,230 @@
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>ECharts</title>
+        <link rel="stylesheet" href="../libs/jquery/bootstrap/dist/css/bootstrap.css" type="text/css" />
+        <!-- build:css css/app.min.css -->
+
+        <!-- 引入 echarts.js -->
+        <script src="../js/echarts.min.js"></script>
+    </head>
+    <body>
+        <div  style="width:500px;">
+            <div style="margin-top: 80px;margin-left: 10%">
+                <div id="main1_1" style="width: 300px;height:300px;margin-left: 50px"></div>
+                <div id="main1" style="postion:absolute;width: 400px;height:400px;margin-top: -350px"></div>
+            </div>
+            <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+            <script type="text/javascript">
+                load_main= function(chartarray) {
+				var colorarray = {
+					//inform: "#31bbf2",
+					low: "#f4df1f",
+					mid: "#fa7800",
+					high: "#e20c1e",
+					inform_dk: "#28a2d3",
+					low_dk: "#dbc91b",
+					mid_dk: "#cf6503",
+					high_dk: "#b40b19"
+				};
+                     // 基于准备好的dom，初始化echarts实例
+                var myChart1 = echarts.init(document.getElementById('main1'));
+                var myChart1_1 = echarts.init(document.getElementById('main1_1'));
+
+                // 指定图表的配置项和数据
+                var option1 = {
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: "{a} <br/>{b}: {c} ({d}%)"
+                    },
+                    legend: {
+                        // orient: 'vertical',
+                        // top: 'middle',
+                        left: 'center',
+						
+                        data: [
+//						{
+//                            name: '信息',
+//							textStyle: {
+//								color: colorarray.inform          // 图例文字颜色
+//							}
+ //                       },
+						{
+                            name: '低危',
+							textStyle: {
+								color: colorarray.low          // 图例文字颜色
+							}
+                        },
+						{
+                            name: '中危',
+							textStyle: {
+								color: colorarray.mid          // 图例文字颜色
+							}
+                        },
+						{
+                            name: '高危',
+							textStyle: {
+								color: colorarray.high          // 图例文字颜色
+							}
+                        },]
+                    },
+                    series: [
+                        {
+                            name: '访问来源',
+                            type: 'pie',
+                            radius: ['50%', '65%'],
+                            label: {
+                                normal: {
+                                    textStyle: {
+                                        fontSize: 12,
+                                    }
+                                }
+                            },
+                            data: [
+ //                               {
+ //                                   value: chartarray.inform,
+ //                                   name: '信息',
+ //                                   itemStyle: {
+ //                                       normal: {
+//											label:{
+//												show:true,
+//												formatter: '{d}%'
+//											},
+//                                           color: colorarray.inform,
+//                                        },
+//                                    }
+//                                },
+                                {
+                                    value: chartarray.low,
+                                    name: '低危',
+                                    itemStyle: {
+                                        normal: {
+											label:{
+												show:true,
+												formatter: '{d}%'
+											},
+                                            color: colorarray.low,
+                                        },
+                                    }
+                                },
+                                {
+                                    value: chartarray.mid,
+                                    name: '中危',
+                                    itemStyle: {
+                                        normal: {
+											label:{
+												show:true,
+												formatter: '{d}%'
+											},
+                                            color: colorarray.mid,
+                                        },
+                                    }
+                                },
+                                {
+                                    value: chartarray.high,
+                                    name: '高危',
+                                    itemStyle: {
+                                        normal: {
+											label:{
+												show:true,
+												formatter: '{d}%'
+											},
+                                            color: colorarray.high,
+                                        },
+                                    }
+                                },
+                            ]
+                        }
+                    ]
+                };
+                var option1_1 = {
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: "{a} <br/>{b}: {c} ({d}%)"
+                    },
+                    series: [
+                        {
+                            name: '访问来源',
+                            type: 'pie',
+                            radius: ['50%', '70%'],
+                            avoidLabelOverlap: false,
+                            label: {
+                                normal: {
+                                    show: false,
+                                    position: 'center'
+                                },
+                                emphasis: {
+                                    show: true,
+                                    textStyle: {
+                                        fontSize: '30',
+                                        fontWeight: 'bold'
+                                    }
+                                }
+                            },
+                            labelLine: {
+                                normal: {
+                                    show: false
+                                }
+                            },
+                            data: [
+                                <!-- { -->
+                                    <!-- value: chartarray.inform, -->
+                                    <!-- name: '信息', -->
+                                    <!-- itemStyle: { -->
+                                        <!-- normal: { -->
+                                            <!-- color: colorarray.inform_dk, -->
+                                        <!-- }, -->
+                                    <!-- } -->
+                                <!-- }, -->
+                                {
+                                    value: chartarray.low,
+                                    name: '低危',
+                                    itemStyle: {
+                                        normal: {
+                                            color: colorarray.low_dk,
+                                        },
+                                    }
+                                },
+                                {
+                                    value: chartarray.mid,
+                                    name: '中危',
+                                    itemStyle: {
+                                        normal: {
+                                            color: colorarray.mid_dk,
+                                        },
+                                    }
+                                },
+                                {
+                                    value: chartarray.high,
+                                    name: '高危',
+                                    itemStyle: {
+                                        normal: {
+                                            color: colorarray.high_dk,
+                                        },
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                };
+                // 使用刚指定的配置项和数据显示图表。
+                myChart1.setOption(option1);
+                myChart1_1.setOption(option1_1);
+                }
+            </script>
+            <script>
+			//700x400
+                var chartarray = {
+ //                   inform: 39,
+                    low: 20,
+                    mid: 23,
+                    high: 18,
+                };
+				load_main(chartarray);
+            </script>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>ECharts</title>
+        <link rel="stylesheet" href="../libs/jquery/bootstrap/dist/css/bootstrap.css" type="text/css" />
+        <!-- 引入 echarts.js -->
+        <script src="../js/echarts.min.js"></script>
+    </head>
+    <body>
+        <div>
+            <div id="main2" style="width: 800px;height:400px;"></div>
+            <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+            <script type="text/javascript">
+                load_main = function(chartarray) {	
+					var myChart2 = echarts.init(document.getElementById('main2'));
+					
+					for(var i=0; i < chartarray.series.length; i++) {};
+					
+					//横向柱状图
+					option = {
+						title : {
+							text: '程序告警'
+						},
+						tooltip : {
+							trigger: 'axis'
+						},
+						legend: {
+							data:['程序告警'],
+							orient: 'horizontal', 
+							left: 'right', 
+							top: 'top'
+						},
+						calculable : true,
+						xAxis : [
+							{
+								type : 'category',
+								boundaryGap : false,
+								data : chartarray.xAxis
+							}
+						],
+						yAxis : [
+							{
+								type : 'value',
+								axisLabel : {
+									formatter: '{value} 次'
+								}
+							}
+						],
+						color:['#31bbcf','#ec6e79','#b9667a','#895a6d','#5c7c81','4e9db3'],
+						series : [
+							{
+								smooth:true,
+								name:'程序告警',
+								type:'line',
+								data:chartarray.series
+							}
+						]
+					};
+					myChart2.setOption(option);
+                }
+            </script>
+            <script>
+                var chartarray = {
+                    xAxis: ['主机1', '主机2','主机3','主机4','主机5','主机6','主机7','主机8','主机9','主机10','主机11','主机12'],
+                    series: [18,88,69,74,36,44,45,69,72,22,33,45]
+                };
+                
+				load_main(chartarray);
+            </script>
+        </div>
+    </body>
+</html>

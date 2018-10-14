@@ -1,0 +1,111 @@
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>ECharts</title>
+        <link rel="stylesheet" href="../libs/jquery/bootstrap/dist/css/bootstrap.css" type="text/css" />
+        <!-- 引入 echarts.js -->
+        <script src="../js/echarts.min.js"></script>
+    </head>
+    <body>
+        <div style="margin-top:50px">
+            <img src="../img/chart1.png" style="position:absolute;"/>
+			<!-- <img id="inform" src="../img/leak_1.png" style="margin-left: 15px; -->
+    <!-- margin-top: 42px; -->
+    <!-- /* top: 26px; */ -->
+    <!-- z-index: 2; -->
+    <!-- position: absolute;"/> -->
+			<img id="low" src="../img/leak_2.png" style="margin-left: 8px;margin-top: 42px;z-index: 2;position: absolute;"/>
+			<img id="mid" src="../img/leak_3.png" style="margin-left: 102px;margin-top: 42px;z-index: 2;position: absolute;"/>
+			<img id="high" src="../img/leak_4.png" style="margin-left: 195px; margin-top: 42px;z-index: 2;position: absolute;"/>
+			<img id="low_hover" src="../img/hover_low.png" style="margin-left: 13px; width:73px;margin-top: 3px;z-index: 2;position: absolute;">
+			<img id="mid_hover" src="../img/hover_mid.png" style="margin-left: 106px; width:73px;margin-top: 3px;z-index: 2;position: absolute;">
+			<img id="high_hover" src="../img/hover_high.png" style="margin-left: 200px; width:73px;margin-top: 3px;z-index: 2;position: absolute;">
+			<img src="../img/chart_footer.png" style="margin-top: 202px;z-index: 3;position: absolute;"/>
+			<img src="../img/list.png" style="width:150px;margin-left:270px;margin-top: 11px;height:268px;"/>
+	
+
+        </div>
+        <script>
+            var run = function (hight) {
+                if(hight >= 100) {
+                    hight = 19;
+                }else {
+					var TotalHeight = 231;
+					var initTop = 19;
+					var pillarTopHight = TotalHeight*(100-hight)/100;
+                    hight = pillarTopHight+initTop;
+                }
+                return hight;
+            }
+            
+            var load_main = function (chartarray) {
+				var colorarray = {
+					<!-- inform: "#31bbf2", -->
+					low: "#f4df1f",
+					mid: "#fa7800",
+					high: "#e20c1e",
+				};
+                var lowHover=document.getElementById("low_hover");
+				if(chartarray.low>=100)
+				{
+					lowHover.style.display="";
+				}
+				else
+				{
+					lowHover.style.display="none";
+				}
+				var midHover=document.getElementById("mid_hover");
+				if(chartarray.mid>=100)
+				{
+					midHover.style.display="";
+				}
+				else
+				{
+					midHover.style.display="none";
+				}
+				var highHover=document.getElementById("high_hover");
+				if(chartarray.high>=100)
+				{
+					highHover.style.display="";
+				}
+				else
+				{
+					highHover.style.display="none";
+				}
+                var low = run(chartarray.low) + "px";
+                var mid = run(chartarray.mid) + "px";
+                var high = run(chartarray.high) + "px";
+                <!-- document.getElementById("inform").style.marginTop = inform; -->
+				document.getElementById("low").style.marginTop = low;
+				document.getElementById("mid").style.marginTop = mid;
+				document.getElementById("high").style.marginTop = high;
+            }
+        </script>
+        <script>
+            //0-100
+			//800x466
+            var chartarray = {
+                <!-- inform: 80, -->
+                low: 100,
+                mid: 100,
+                high: 100,
+            };
+			load_main(chartarray);
+			/*
+			var i = 0;
+			function drawPic()
+			{
+				if(i>100)
+					return;
+				chartarray.high = i;
+				load_main(chartarray);
+				i++;
+			}
+			window.setInterval(drawPic,50); 
+			*/
+        </script>
+    </body>
+</html>

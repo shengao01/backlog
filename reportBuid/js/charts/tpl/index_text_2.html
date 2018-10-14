@@ -1,0 +1,98 @@
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>ECharts</title>
+        <link rel="stylesheet" href="../libs/jquery/bootstrap/dist/css/bootstrap.css" type="text/css" />
+        <!-- 引入 echarts.js -->
+        <script src="../js/echarts.min.js"></script>
+    </head>
+    <body>
+        <div>
+            <div id="main2" style="width: 600px;height:600px;"></div>
+            <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+            <script type="text/javascript">
+                load_main = function(chartarray) {	
+				var myChart2 = echarts.init(document.getElementById('main2'));
+				
+				for(var i=0; i < chartarray.title.length; i++) {
+					if(chartarray.num[i] == 0) {
+						chartarray.num[i] = "";
+					}
+				};
+                
+                //横向柱状图
+                option2 = {
+                    tooltip: {
+                        trigger: 'axis',
+                        axisPointer: {
+                            type: 'shadow'
+                        }
+                    },
+                    grid: {
+                        left: '3%',
+                        right: '4%',
+                        bottom: '50%',
+                        containLabel: true
+                    },
+                    xAxis: {
+                        type: 'value',
+                        boundaryGap: [0, 0.01],
+                        axisLabel: {
+                            inside: true,
+                            textStyle: {
+                                color: '#fff'
+                            }
+                        },
+                        axisTick: {
+                            show: false
+                        },
+                        axisLine: {
+                            show: false
+                        },
+                    },
+                    yAxis: {
+                        type: 'category',
+                        data: chartarray.title,
+                        axisTick: {
+                            tickStyle: {
+                                color: '#675bba'
+                            }
+                        },
+                    },
+                    series: [
+						{
+                            name: '数量',
+                            type: 'bar',
+                            data: chartarray.num,
+                            itemStyle: {
+                                normal: {
+                                    color: '#48d1cc',
+                                }
+                            },
+                            label: {
+                                normal: {
+                                    show: true,
+                                    position: 'right'
+                                }
+                            },
+                        }
+                    ]
+                };
+                myChart2.setOption(option2);
+                }
+            </script>
+            <script>
+			//750x500
+                var chartarray = {
+                    title: ['设备告警', '操作告警', '程序告警', '病毒木马'],
+                    num: [119, 221, 337,449]
+                };
+                
+				load_main(chartarray);
+            </script>
+        </div>
+    </body>
+</html>

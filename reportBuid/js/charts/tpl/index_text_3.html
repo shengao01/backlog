@@ -1,0 +1,123 @@
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>ECharts</title>
+        <link rel="stylesheet" href="../libs/jquery/bootstrap/dist/css/bootstrap.css" type="text/css" />
+        <style>
+            *{padding: 0; margin: 0; }
+            .circle{width: 200px;height: 200px;margin-top:20%;margin-left: 35%;position: relative;}
+            canvas{display: block;margin: 0;position: absolute;background: white;left: 0;top: 0;}
+            #canvas_1{z-index: 1 }
+            #canvas_2{z-index: 2; background: transparent;}
+        </style>
+    </head>
+    <body>
+	<div style="font-family: 微软雅黑;">
+		<img id="face" src="../img/facehigh.png" style="width: 70px;
+    margin-left: 127px;
+    margin-top: 60px;
+    position: absolute;"/>
+	<img src="../img/cyclie.png" style="width: 335px;
+    margin-left: -8px;
+    margin-top: 1px;
+    position: absolute;"/>
+	<div style="width: 200px;
+    text-align: center;
+    margin-top: 130px;
+    margin-left: 58px;
+    position: absolute;">
+		<p id="source" style="font-size: 45px;color: #9fc916;">低危</p>
+		<p style="font-size: 20px;color: #acacac;">总体评分</p>
+		<p id="source2" style="font-size: 20px;color: #acacac;">90</p>
+	</div>
+		
+        <canvas id="canvas_2" width="320" height="320" style="margin-top:9px"></canvas>
+		<canvas id="canvas_1" width="320" height="320" style="margin-top: 9px;position: absolute;z-index: -1;"></canvas>
+        <script>
+            function load_main(chartarray) {
+				if(chartarray.percent == 0) {
+					chartarray.delta = 0;
+				}
+				var colorarray = {
+					inform: "#31bbf2",
+					low: "#f4df1f",
+					mid: "#fa7800",
+					high: "#e20c1e",
+				};
+                var canvas_2 = document.getElementById("canvas_2");
+                var ctx_2 = canvas_2.getContext('2d');
+				var canvas_1 = document.getElementById("canvas_1");
+                var ctx_1 = canvas_1.getContext('2d');
+                //画底部的灰色圆环
+                ctx_2.lineWidth = 32;
+                var angle = 0;
+				ctx_2.fillStyle="#2e5e7a"; 
+				ctx_2.translate(160, 160);
+				ctx_2.rotate(45*Math.PI/180);
+				ctx_2.translate(-160, -160);
+				var deltacolor = "";
+				
+				document.getElementById("source2").innerHTML = "" + chartarray.percent;
+				
+				if(chartarray.percent <= 20) {
+					document.getElementById("source").innerHTML = "高危";
+					document.getElementById("source").style.color = colorarray.high;
+					document.getElementById("face").src = "../img/facehigh.png";
+					ctx_2.strokeStyle = colorarray.high;
+					ctx_1.fillStyle = colorarray.high;
+				}
+				if(chartarray.percent <= 70 && chartarray.percent > 20) {
+					document.getElementById("source").innerHTML = "中危";
+					document.getElementById("source").style.color = colorarray.mid;
+					document.getElementById("face").src = "../img/facemid.png";
+					ctx_2.strokeStyle = colorarray.mid;
+					ctx_1.fillStyle = colorarray.mid;
+				}
+				if(chartarray.percent <= 99 && chartarray.percent > 70) {
+					document.getElementById("source").innerHTML = "低危";
+					document.getElementById("source").style.color = colorarray.low;
+					document.getElementById("face").src = "../img/facelow.png";
+					ctx_2.strokeStyle = colorarray.low;
+					ctx_1.fillStyle = colorarray.low;
+				}
+				if(chartarray.percent == 100) {
+					document.getElementById("source").innerHTML = "安全";
+					document.getElementById("source").style.color = "#9fc916";
+					document.getElementById("face").src = "../img/facesafe.png";
+					ctx_2.strokeStyle = "#9fc916";
+					ctx_1.fillStyle = "#9fc916";
+				}
+                (function draw() {
+
+                    //百分比圆环
+                    ctx_2.beginPath();
+                    //圆环角度
+                    angle = chartarray.percent / 100 * 360
+                    ctx_2.arc(canvas_2.width / 2, canvas_2.height / 2, canvas_2.width / 2.05 - ctx_2.lineWidth / 2, 0, angle * Math.PI / 180, false);
+                    ctx_2.stroke();
+
+					ctx_1.translate(160, 160);
+					ctx_1.rotate(angle*Math.PI/180 + 45*Math.PI/180);
+					ctx_1.translate(-(160), -(160));
+					ctx_1.beginPath();
+					ctx_1.moveTo(284,159);    //移动至开始点  
+					ctx_1.lineTo(300,159 + chartarray.delta);  
+					ctx_1.lineTo(318,159);  
+					ctx_1.closePath();  
+					ctx_1.fill();
+                })()
+            }
+        </script>
+		<script>
+			var chartarray = {
+                    percent: 0,
+					delta: 0,
+                };
+			load_main(chartarray);
+		</script>
+	</div>
+    </body>
+</html>

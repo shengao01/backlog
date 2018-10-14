@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>ECharts</title>
+        <link rel="stylesheet" href="../libs/jquery/bootstrap/dist/css/bootstrap.css" type="text/css" />
+        <!-- build:css css/app.min.css -->
+
+        <!-- 引入 echarts.js -->
+        <script src="../js/echarts.min.js"></script>
+    </head>
+    <body>
+        <div  style="width:600px;">
+            <div id="main1_1" style="width: 600px;height:600px;margin-top:-100px;"></div>
+            <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+            <script type="text/javascript">
+                load_main= function(chartarray) {
+					var myChart = echarts.init(document.getElementById('main1_1'));
+
+					var option = {
+						color:['#31bbcf','#ec6e79','#b9667a','#895a6d','#5c7c81','4e9db3'],
+						series : [
+							{
+								name:'告警类型',
+								type:'pie',
+								radius : '55%',
+								center: ['50%', '60%'],
+								data:chartarray.Data,
+								/*
+								label:{
+									normal:{
+										formatter(v) {
+											let text = v.name
+											return text.length <= 4 
+												? text 
+												: `${text.slice(0,(text.length+1)/2)}\n${text.slice((text.length+1)/2)}`
+										}
+									}  
+								}
+								*/
+							}
+						]
+					};
+					// 使用刚指定的配置项和数据显示图表。
+					myChart.setOption(option);
+                }
+            </script>
+            <script>
+			//700x400
+                var chartarray = {
+					Data:[
+						{value:335, name:'危险操作'},
+						{value:310, name:'用户权限变更'},
+						{value:234, name:'关键文件变更'},
+						{value:135, name:'用户登录失败超过阈值'},
+						{value:548, name:'网络外联事件'},
+						{value:352, name:'用户登录事件'}
+					]
+                };
+				load_main(chartarray);
+            </script>
+        </div>
+    </body>
+</html>

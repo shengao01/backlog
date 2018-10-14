@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>ECharts</title>
+        <link rel="stylesheet" href="../libs/jquery/bootstrap/dist/css/bootstrap.css" type="text/css" />
+        <!-- build:css css/app.min.css -->
+
+        <!-- 引入 echarts.js -->
+        <script src="../js/echarts.min.js"></script>
+    </head>
+    <body>
+        <div  style="width:600px;">
+            <div id="main1_1" style="width: 600px;height:600px;margin-top:-100px;"></div>
+            <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+            <script type="text/javascript">
+                function load_main(chartarray) {
+					var myChart = echarts.init(document.getElementById('main1_1'));
+					var option = {
+						color:['#31bbcf','#ec6e79','#b9667a','#895a6d','#5c7c81','4e9db3'],
+						series : [
+							{
+								name:'告警类型',
+								type:'pie',
+								radius : '55%',
+								center: ['50%', '60%'],
+								data:chartarray.Data
+								/*label:{
+									normal:{
+										formatter(v) {
+											var text = v.name;
+											return text;
+											//return text.length <= 4?text : (text.slice(0,(text.length+1)/2) +""+text.slice((text.length+1)/2));
+										}
+									}  
+								}
+								*/
+							}
+						]
+					};
+					// 使用刚指定的配置项和数据显示图表。
+					myChart.setOption(option);
+                }
+                var chartarray = {
+					Data:[
+						{value:335, name:'光驱挂载和卸载'},
+						{value:310, name:'串口、并口占用和释放'},
+						{value:234, name:'网络设备启用/禁止'},
+						{value:135, name:'USB设备插入/拔出'}
+					]
+                };
+				load_main(chartarray);
+            </script>
+        </div>
+    </body>
+</html>
