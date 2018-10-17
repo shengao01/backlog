@@ -33,12 +33,19 @@ def libinclude(root):
 #
 # TIFF_ROOT = libinclude("/opt/tiff")
 
-TCL_ROOT = None
-JPEG_ROOT = None
-ZLIB_ROOT = None
-TIFF_ROOT = None
-FREETYPE_ROOT = None
-LCMS_ROOT = None
+# TCL_ROOT = None
+#JPEG_ROOT = None
+#ZLIB_ROOT = None
+#TIFF_ROOT = None
+#FREETYPE_ROOT = None
+#LCMS_ROOT = None
+
+TCL_ROOT = "/usr/lib64/"
+JPEG_ROOT = "/usr/lib64/"
+ZLIB_ROOT = "/usr/lib64/"
+TIFF_ROOT = "/usr/lib64/"
+FREETYPE_ROOT = "/usr/lib64/"
+LCMS_ROOT = "/usr/lib64/"
 
 # FIXME: add mechanism to explicitly *disable* the use of a library
 

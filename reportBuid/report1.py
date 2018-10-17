@@ -84,7 +84,7 @@ def _doNothing(canvas, doc):
 
 # 第一页模板（封面）
 def firstPages(c, doc):
-    c.drawImage(path + '/Assets/cover.png', 0, 0, width=595.275590551, height=841.88976378)
+    c.drawImage(path + '/Assets/cover_audit.png', 0, 0, width=595.275590551, height=841.88976378)
 
 
 # 其他页模板（页面页脚）
@@ -129,30 +129,6 @@ def add_title(story, title, style):
 
 
 # 关于我们
-def about_us_5(story):
-    add_title(story, '5 关于我们', h1)
-    story.append(Paragraph('本报告由“主机安全防护系统管理平台”生成，是北京天地和兴科技有限公司研发的主机安全防护工具。'
-                           '北京天地和兴科技有限公司永久保留本报告的解释权。', body))
-    story.append(Paragraph('北京天地和兴科技有限公司感谢您对我们的信任和支持。', body))
-    add_title(story, '5.1 联系我们', h2)
-    story.append(Paragraph('•<b>电话:</b>' + '010-82896289', about_us))
-    story.append(Paragraph('•<b>邮箱:</b>' + 'tdhx@tdhxkj.com', about_us))
-    story.append(Paragraph('•<b>网址:</b>' + 'http://www.tdhxkj.com/', about_us))
-    story.append(Paragraph('•<b>地址:</b>' + '北京市海淀区中关村科技园8号 华夏科技大厦三层', about_us))
-
-
-def about_us_4(story):
-    add_title(story, '4 关于我们', h1)
-    story.append(Paragraph('本报告由“主机安全防护系统管理平台”生成，是北京天地和兴科技有限公司研发的主机安全防护工具。'
-                           '北京天地和兴科技有限公司永久保留本报告的解释权。', body))
-    story.append(Paragraph('北京天地和兴科技有限公司感谢您对我们的信任和支持。', body))
-    add_title(story, '4.1 联系我们', h2)
-    story.append(Paragraph('•<b>电话:</b>' + '010-82896289', about_us))
-    story.append(Paragraph('•<b>邮箱:</b>' + 'tdhx@tdhxkj.com', about_us))
-    story.append(Paragraph('•<b>网址:</b>' + 'http://www.tdhxkj.com/', about_us))
-    story.append(Paragraph('•<b>地址:</b>' + '北京市海淀区中关村科技园8号 华夏科技大厦三层', about_us))
-
-
 def about_us_3(story):
     add_title(story, '3 关于我们', h1)
     story.append(Paragraph('本报告由“工控安全审计平台”生成，是北京天地和兴科技有限公司研发的主机安全审计工具。'
@@ -183,7 +159,6 @@ def time_to_timestamp(date_time):
 class MyDocTemplate(BaseDocTemplate):
     def __init__(self, filename, **kw):
         """
-
         :rtype: object
         """
         self.allowSplitting = 0
@@ -310,15 +285,15 @@ class MyDocTemplate(BaseDocTemplate):
 
 # 总览报告
 class Overview:
-    def __init__(self):
+    def __init__(self, start_time, end_time):
         # self.db = Db()  # 连接数据库
         self.grade = '高危'
         self.grade_color = HexColor(0xe20c1e)   # 等级颜色
         self.id = None  # 报告id
         self.name = None  # 任务名称
-        self.high = 0   # 病毒木马数量
-        self.medium = 0  # 程序告警数量 + 设备告警数量
-        self.low = 0    # 操作告警数量
+        self.high = 5   # 病毒木马数量
+        self.medium = 6  # 程序告警数量 + 设备告警数量
+        self.low = 7    # 操作告警数量
         self.alm = 0    # 程序告警数量
         self.dev = 0    # 设备告警数量
         self.total = 0  # 总数
@@ -329,30 +304,15 @@ class Overview:
         self.act_dict = dict()  # 主机ID:操作告警数量
         self.assets_dict = dict()   # 主机ID:全部告警数量
         self.server_dict = dict()   # 主机id:主机名称
-
-    # 基本信息表格
-    def base_info_table(self, story):
-        # 表格数据
-        base_info_data = [['选项', '内容'], ['开始时间', ' '], ['结束时间', ' ']]
-        # sql = "select id, name, ip from en_server_list WHERE id IN " + str(tuple(self.h_list_id))
-        # result = self.db.query(sql, 0)
-        # for i in result:
-        #     base_info_data.append([i['name'], i['ip']])
-        #     self.server_dict[i['id']] = i['name']
-        # 创建表格对象
-        base_infor_t = Table(base_info_data, colWidths=[189, 250], rowHeights=25, spaceAfter=6)
-        # 设置表格样式
-        base_infor_t.setStyle(TableStyle([
-            ('FONTNAME', (0, 0), (-1, -1), 'hei'),  # 字体
-            ('FONTSIZE', (0, 0), (-1, -1), 11),  # 字体大小
-            ('BACKGROUND', (0, 0), (-1, 0), HexColor(0x31bbf2)),  # 第一列背景颜色
-            ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),  # 表格第一列内文字颜色
-            ('GRID', (0, 0), (-1, -1), 0.5, HexColor(0x2a323b)),  # 表格框线
-            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),  # 对齐
-            ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),  # 对齐
-        ]))
-        story.append(Paragraph("表 <seq template='1.%(Chart1No+)s'/> 用户选择参数", table_name))
-        story.append(base_infor_t)
+        self.start_time = start_time  # 开始时间
+        self.end_time = end_time  # 结束时间
+        self.src_dst = [["192.168.81.135<--->192.168.81.24", "SNMP", "3", "10%"],
+                        ["192.168.81.135<--->192.168.81.24", "SNMP", "3", "10%"],
+                        ["192.168.81.135<--->192.168.81.24", "SNMP", "3", "10%"],
+                        ["192.168.81.135<--->192.168.81.24", "SNMP", "3", "10%"],
+                        ["192.168.81.135<--->192.168.81.24", "SNMP", "3", "10%"]]
+        self.proto_time_data = {"time": ['00:00', '01:00', '02:00', '03:00', '04:00', '05:00', '06:00', '07:00', '08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00'],
+                           "all": [26, 20, 26, 26, 26, 16, 26, 26, 30, 26, 26, 26, 26, 34, 26, 26, 26, 23, 26, 26, 26, 26, 26, 26]}
 
     # 统计病毒木马、告警数量
     def stats_info(self):
@@ -694,20 +654,102 @@ class Overview:
         story.append(Image(path + '/tmp/deviceWarn.png', width=439, height=365.8))
         story.append(Paragraph("图 <seq template='3.%(Figure3No+)s'/> 设备告警分布", figure_name))
 
+    # 基本信息表格
+    def base_info_table(self, story):
+        # 表格数据
+        base_info_data = [['选项', '内容'], ['开始时间', self.start_time], ['结束时间', self.end_time]]
+        # sql = "select id, name, ip from en_server_list WHERE id IN " + str(tuple(self.h_list_id))
+        # result = self.db.query(sql, 0)
+        # for i in result:
+        #     base_info_data.append([i['name'], i['ip']])
+        #     self.server_dict[i['id']] = i['name']
+        # 创建表格对象
+        base_infor_t = Table(base_info_data, colWidths=[189, 250], rowHeights=25, spaceAfter=6)
+        # 设置表格样式
+        base_infor_t.setStyle(TableStyle([
+            ('FONTNAME', (0, 0), (-1, -1), 'hei'),  # 字体
+            ('FONTSIZE', (0, 0), (-1, -1), 11),  # 字体大小
+            ('BACKGROUND', (0, 0), (-1, 0), HexColor(0x31bbf2)),  # 第一列背景颜色
+            ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),  # 表格第一列内文字颜色
+            ('GRID', (0, 0), (-1, -1), 0.5, HexColor(0x2a323b)),  # 表格框线
+            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),  # 对齐
+            ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),  # 对齐
+        ]))
+        story.append(Paragraph("表 <seq template='1.%(Chart1No+)s'/> 用户选择参数", table_name))
+        story.append(base_infor_t)
+
     # 协议类型分布饼状图
     def proto_figure(self, story):
-        json_string = "{\"low\":" + str(self.high) + \
-                      ",\"mid\":" + str(self.medium) +\
-                      ",\"high\":" + str(self.low) + "}"
+        json_string = "{\"modbus\":" + str(self.low) + \
+                      ",\"s7\":" + str(self.medium) + \
+                      ",\"s7plus\":" + str(self.low) + "}"
         cmd = phantomjs_path + ' ' + js_path + ' -url ' + \
-              path + '/js/charts/tpl/index_text_1.html -width 500 -height 390 -json ' + "'" + \
+              path + '/js/charts/tpl/index_proto_1.html -width 500 -height 390 -json ' + "'" + \
               json_string + "' -outfile " + path + "/tmp/1.png"
+        # cmd = phantomjs_path + ' ' + js_path + ' -url ' + \
+        #       path + '/js/charts/tpl/index_text_1.html -width 500 -height 390 ' + " -outfile " + path + "/tmp/1.png"
         os.system(cmd)
         story.append(Image(path + '/tmp/1.png', width=400, height=312))
-        story.append(Paragraph("图 <seq template='3.%(Figure3No+)s'/> 风险等级分布", figure_name))
+        story.append(Paragraph("图 <seq template='2.%(Figure3No+)s'/> 协议类型分布图", figure_name))
 
-    # 开始绘制
-    def go(self):
+    # 源地址-目的地址分布排行
+    def src_dst_table(self, story):
+        data = [['源地址-目的地址', '协议类型', '流条数', '比例'],
+                [self.src_dst[0][0], self.src_dst[0][1], self.src_dst[0][2], self.src_dst[0][3]],
+                [self.src_dst[0][0], self.src_dst[0][1], self.src_dst[0][2], self.src_dst[0][3]],
+                [self.src_dst[0][0], self.src_dst[0][1], self.src_dst[0][2], self.src_dst[0][3]],
+                [self.src_dst[0][0], self.src_dst[0][1], self.src_dst[0][2], self.src_dst[0][3]],
+                [self.src_dst[0][0], self.src_dst[0][1], self.src_dst[0][2], self.src_dst[0][3]]
+                ]
+
+        t = Table(data, colWidths=[239, 100, 50, 50], rowHeights=25, spaceAfter=6)
+        t.setStyle(TableStyle([
+            ('FONTNAME', (0, 0), (-1, -1), 'hei'),
+            ('FONTSIZE', (0, 0), (-1, -1), 11),
+            ('BACKGROUND', (0, 0), (-1, 0), HexColor(0x31bbf2)),
+            ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
+            ('GRID', (0, 0), (-1, -1), 0.5, HexColor(0x2a323b)),
+            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+            ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+        ]))
+        story.append(Paragraph("表 <seq template='2.%(Chart3No+)s'/> 源地址-目的地址分布排行", table_name))
+        story.append(t)
+
+    # 协议时间分布趋势图
+    def proto_time(self, story):
+        # sql = "select virus,year,month,day  from en_servers_option_warn_counter where hour=0 and month!=0 and " \
+        #       "day!=0"
+        # result = self.db.query(sql, 0)
+        xAxis = list()
+        series = list()
+        for i in range(len(self.proto_time_data["time"])):
+            xAxis.append(self.proto_time_data["time"][i])
+            series.append(self.proto_time_data["all"][i])
+        json_dict = {"xAxis": xAxis, "series": series}
+        json_string = json.dumps(json_dict)
+        cmd = phantomjs_path + ' ' + js_path + ' -url ' + path + '/js/charts/tpl/index_proto_2.html  -width 800 ' \
+                                               '-height 400 -json ' + "'" + json_string + "' -outfile " + path + \
+                                               "/tmp/proto_time.png"
+        os.system(cmd)
+        story.append(Image(path + '/tmp/proto_time.png', width=439, height=219.5))
+        story.append(Paragraph("图 <seq template='2.%(Figure3No+)s'/> 协议时间分布趋势图", figure_name))
+
+    # 传输层协议分布饼状图
+    def l2_figure(self, story):
+        json_string = "{\"TCP\":" + str(self.low) + \
+                      ",\"UDP\":" + str(self.medium) + \
+                      ",\"GOOSE\":" + str(self.high) + "}"
+        cmd = phantomjs_path + ' ' + js_path + ' -url ' + \
+              path + '/js/charts/tpl/index_proto_3.html -width 500 -height 390 -json ' + "'" + \
+              json_string + "' -outfile " + path + "/tmp/1.png"
+        # cmd = phantomjs_path + ' ' + js_path + ' -url ' + \
+        #       path + '/js/charts/tpl/index_text_1.html -width 500 -height 390 ' + " -outfile " + path + "/tmp/1.png"
+        os.system(cmd)
+        story.append(Image(path + '/tmp/1.png', width=400, height=312))
+        story.append(Paragraph("图 <seq template='2.%(Figure3No+)s'/> 协议类型分布图", figure_name))
+
+    # 开始绘制协议审计报告
+    def proto_go(self):
         story = list()  # 报告内容存储结构
         story.append(PageBreak())
         # 目录
@@ -720,12 +762,41 @@ class Overview:
         story.append(PageBreak())
         add_title(story, '1 前言', h1)
         add_title(story, '1.1 报告阅读说明', h2)
-        story.append(Paragraph('本次安全审计报告是协议审计情况的统计，主要内容包含协议类型分布，TOP特征值展示，协议数随时间分布趋势，'
+        story.append(Paragraph('本报告是协议审计情况的统计，主要内容包含协议类型分布，TOP特征值展示，协议数随时间分布趋势，'
                                '以及传输层协议的分布。', body))
         story.append(Paragraph('北京天地和兴科技有限公司感谢您对我们的信任和支持。现将安全审计报告呈上。', body))
         add_title(story, '1.2 目标参数', h2)
         self.base_info_table(story)
         story.append(PageBreak())
+        story.append(Paragraph('2 审计概述', h1))
+        add_title(story, '2.1 协议类型分布图', h2)
+        self.proto_figure(story)
+        add_title(story, '2.2 源地址-目的地址top5', h2)
+        self.src_dst_table(story)
+        add_title(story, '2.3 协议时间分布趋势图', h2)
+        self.proto_time(story)
+        add_title(story, '2.4 传输层分布', h2)
+        self.l2_figure(story)
+        # self.risk_stats_table(story)
+        # self.risk_type_figure(story)
+        # add_title(story, '3.2.3 风险类型分布', h3)
+        # self.type_figure(story)
+        # self.type_stats_table(story)
+        # add_title(story, '3.3.1 病毒木马', h3)
+        # self.virus_figure(story)
+        # add_title(story, '3.3.2 程序告警', h3)
+        # self.alm_figure(story)
+        # add_title(story, '3.3.3 操作告警', h3)
+        # self.action_figure(story)
+        # add_title(story, '3.3.4 设备告警', h3)
+        # self.device_figure(story)
+
+        story.append(PageBreak())
+        about_us_3(story)
+
+        doc = MyDocTemplate(path + '/pdf_tmp/audit_report.pdf')
+        doc.multiBuild(story, onFirstPage=firstPages, onLaterPages=laterPages)
+        # os.rename(path + '/pdf_tmp/overview.pdf', path + '/pdf_tmp/imap_report.pdf')
         """
         add_title(story, '2 专家建议与指导', h1)
         add_title(story, '2.1 总体结论', h2)
@@ -743,51 +814,108 @@ class Overview:
         evidence_table(story)
         story.append(PageBreak())
         """
+
+    # 开始绘制协议事件报告
+    def event_go(self):
+        story = list()  # 报告内容存储结构
+        story.append(PageBreak())
+        # 目录
+        toc = TableOfContents()
+        toc.dotsMinLevel = 0
+        toc.levelStyles = [H1, H2, H3]
+        story.append(Paragraph('目录', toc1))
+        story.append(toc)
+        # 分页
+        story.append(PageBreak())
+        add_title(story, '1 前言', h1)
+        add_title(story, '1.1 报告阅读说明', h2)
+        story.append(Paragraph('本报告是安全事件情况的统计，主要内容包含主要内容包含攻击源/目标TOP5，安全事件协议分布，安全事件总数随时间分布趋势，'
+                               '以及事件来源的分布。', body))
+        story.append(Paragraph('北京天地和兴科技有限公司感谢您对我们的信任和支持。现将安全事件报告呈上。', body))
+        add_title(story, '1.2 用户选择参数', h2)
+        self.base_info_table(story)
+        story.append(PageBreak())
         story.append(Paragraph('2 审计概述', h1))
-        add_title(story, '2.1 协议类型分布图表', h2)
-        add_title(story, '2.1.1 协议类型占比分布', h3)
+        add_title(story, '2.1 攻击源top5', h2)
+        self.src_dst_table(story)
+        add_title(story, '2.2 攻击目标top5', h2)
+        self.src_dst_table(story)
+        add_title(story, '2.3 安全事件协议类型分布图', h2)
         self.proto_figure(story)
-        # self.risk_stats_table(story)
-        add_title(story, '2.1.2 协议类型详情统计', h3)
-        # self.risk_type_figure(story)
-        # add_title(story, '3.2.3 风险类型分布', h3)
-        # self.type_figure(story)
-        # self.type_stats_table(story)
-        add_title(story, '2.2 源地址-目的地址top5', h2)
-        add_title(story, '2.3 协议时间分布', h2)
-        add_title(story, '2.4 传输层分布', h2)
-        # add_title(story, '3.3.1 病毒木马', h3)
-        # self.virus_figure(story)
-        # add_title(story, '3.3.2 程序告警', h3)
-        # self.alm_figure(story)
-        # add_title(story, '3.3.3 操作告警', h3)
-        # self.action_figure(story)
-        # add_title(story, '3.3.4 设备告警', h3)
-        # self.device_figure(story)
+        add_title(story, '2.4 安全事件来源分布图', h2)
+        self.proto_figure(story)
+        add_title(story, '2.5 协议时间分布趋势图', h2)
+        self.proto_time(story)
 
         story.append(PageBreak())
         about_us_3(story)
 
-        doc = MyDocTemplate(path + '/pdf_tmp/imap_report.pdf')
+        doc = MyDocTemplate(path + '/pdf_tmp/event_report.pdf')
         doc.multiBuild(story, onFirstPage=firstPages, onLaterPages=laterPages)
-        # os.rename(path + '/pdf_tmp/overview.pdf', path + '/pdf_tmp/imap_report.pdf')
-        print("审计报告生成成功")
+
+    # 开始绘制协议日志报告
+    def log_go(self):
+        story = list()  # 报告内容存储结构
+        story.append(PageBreak())
+        # 目录
+        toc = TableOfContents()
+        toc.dotsMinLevel = 0
+        toc.levelStyles = [H1, H2, H3]
+        story.append(Paragraph('目录', toc1))
+        story.append(toc)
+        # 分页
+        story.append(PageBreak())
+        add_title(story, '1 前言', h1)
+        add_title(story, '1.1 报告阅读说明', h2)
+        story.append(Paragraph('本报告是安全事件情况的统计，主要内容包含主要内容包含攻击源/目标TOP5，安全事件协议分布，安全事件总数随时间分布趋势，'
+                               '以及事件来源的分布。', body))
+        story.append(Paragraph('北京天地和兴科技有限公司感谢您对我们的信任和支持。现将安全事件报告呈上。', body))
+        add_title(story, '1.2 用户选择参数', h2)
+        self.base_info_table(story)
+        story.append(PageBreak())
+        story.append(Paragraph('2 审计概述', h1))
+        add_title(story, '2.1 攻击源top5', h2)
+        self.src_dst_table(story)
+        add_title(story, '2.2 攻击目标top5', h2)
+        self.src_dst_table(story)
+        add_title(story, '2.3 安全事件协议类型分布图', h2)
+        self.proto_figure(story)
+        add_title(story, '2.4 安全事件来源分布图', h2)
+        self.proto_figure(story)
+        add_title(story, '2.5 协议时间分布趋势图', h2)
+        self.proto_time(story)
+
+        story.append(PageBreak())
+        about_us_3(story)
+
+        doc = MyDocTemplate(path + '/pdf_tmp/event_report.pdf')
+        doc.multiBuild(story, onFirstPage=firstPages, onLaterPages=laterPages)
 
 
 if __name__ == "__main__":
-    overview = Overview()
+    start_time = "2018-10-01"
+    end_time = "2018-10-11"
+    overview = Overview(start_time, end_time)
     try:
         # 创建临时pdf文件目录
         if not os.path.exists(pdf_tmp):
             os.makedirs(pdf_tmp)
-        #  查询任务开始生成pdf
-        # if overview.check_task():
+        report_type = input(u"请输入需要生成的报告类型:")
         sys.stderr.write("start make report****************")
-        overview.go()   # 生成总览报告
-        sys.stderr.write("end make report****************")
+        if str(report_type) == "audit":
+            overview.proto_go()   # 生成审计报告
+            sys.stderr.write("end make report****************")
+        elif str(report_type) == "event":
+            overview.event_go()   # 生成事件报告
+            sys.stderr.write("end make report****************")
+        elif str(report_type) == "log":
+            overview.log_go()   # 生成日志报告
+            sys.stderr.write("end make report****************")
+        else:
+            sys.stderr.write("input params error.")
         # overview.set_status(1)  # 设置任务状态为完成状态
         # overview.db.close()   # 关闭数据库连接
-        print('end')
+        print('stop')
     except:
         print('生成失败')
         traceback.print_exc()

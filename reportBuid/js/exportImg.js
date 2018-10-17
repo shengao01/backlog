@@ -3,7 +3,7 @@
     var fs = require('fs');  
     var config = {  
         // default container width and height  
-        DEFAULT_WIDTH : '800',  
+        DEFAULT_WIDTH : '800',
         DEFAULT_HEIGHT : '400'  
     }, parseParams, render, pick, usage;  
 	var flag = 0;
