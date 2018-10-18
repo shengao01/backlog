@@ -291,7 +291,7 @@ class MyDocTemplate(BaseDocTemplate):
 
 # 总览报告
 class Overview:
-    def __init__(self, start_time, end_time, report_type):
+    def __init__(self, start_time, end_time, report_type, proto_type=None):
         # self.db = Db()  # 连接数据库
         self.grade_color = HexColor(0xe20c1e)   # 等级颜色
         self.id = None  # 报告id
@@ -531,9 +531,9 @@ class Overview:
     # 安全事件来源分布图
     def event_src_figure(self, story):
         json_string = "{\"IPMAC\":" + str(self.low) + \
-                      ",\"白名单\":" + str(self.medium) + \
-                      ",\"流量告警\":" + str(self.medium) + \
-                      ",\"黑名单\":" + str(self.high) + "}"
+                      ",\"white_list\":" + str(self.medium) + \
+                      ",\"traffic_alert\":" + str(self.medium) + \
+                      ",\"black_list\":" + str(self.high) + "}"
         cmd = phantomjs_path + ' ' + js_path + ' -url ' + \
               path + '/js/charts/tpl/index_event_2.html -width 500 -height 390 -json ' + "'" + \
               json_string + "' -outfile " + path + "/tmp/event_src_fig.png"

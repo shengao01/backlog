@@ -23,9 +23,9 @@
 				var colorarray = {
 					//inform: "#31bbf2",
 					IPMAC: "#f4df1f",
-					白名单: "#fa7800",
-					流量告警: "#e20c1e",
-                    黑名单: "#28a2d3",
+					white_list: "#fa7800",
+					traffic_alert: "#e20c1e",
+                    black_list: "#28a2d3",
 					low_dk: "#dbc91b",
 					mid_dk: "#cf6503",
 					high_dk: "#b40b19"
@@ -55,19 +55,19 @@
 						{
                             name: '流量告警',
 							textStyle: {
-								color: colorarray.流量告警          // 图例文字颜色
+								color: colorarray.traffic_alert          // 图例文字颜色
 							}
                         },
                         {
                             name: '黑名单',
 							textStyle: {
-								color: colorarray.黑名单          // 图例文字颜色
+								color: colorarray.black_list          // 图例文字颜色
 							}
                         },
 						{
                             name: '白名单',
 							textStyle: {
-								color: colorarray.白名单         // 图例文字颜色
+								color: colorarray.white_list         // 图例文字颜色
 							}
                         },]
                     },
@@ -98,7 +98,7 @@
                                     }
                                 },
                                 {
-                                    value: chartarray.流量告警,
+                                    value: chartarray.traffic_alert,
                                     name: '流量告警',
                                     itemStyle: {
                                         normal: {
@@ -106,12 +106,12 @@
 												show:true,
 												formatter: '{b}: {d}%, {c}'
 											},
-                                            color: colorarray.流量告警,
+                                            color: colorarray.traffic_alert,
                                         },
                                     }
                                 },
                                 {
-                                    value: chartarray.黑名单,
+                                    value: chartarray.black_list,
                                     name: '黑名单',
                                     itemStyle: {
                                         normal: {
@@ -119,12 +119,12 @@
 												show:true,
 												formatter: '{b}: {d}%, {c}'
 											},
-                                            color: colorarray.黑名单,
+                                            color: colorarray.black_list,
                                         },
                                     }
                                 },
                                 {
-                                    value: chartarray.白名单,
+                                    value: chartarray.white_list,
                                     name: '白名单',
                                     itemStyle: {
                                         normal: {
@@ -132,7 +132,7 @@
 												show:true,
 												formatter: '{b}: {d}%, {c}'
 											},
-                                            color: colorarray.白名单,
+                                            color: colorarray.white_list,
                                         },
                                     }
                                 }
