@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>ECharts</title>
+    <link rel="stylesheet" href="../libs/jquery/bootstrap/dist/css/bootstrap.css" type="text/css" />
+    <!-- build:css css/app.min.css -->
+    <!-- 引入 echarts.js -->
+    <script src="../js/echarts.min.js" charset="utf-8"></script>
+</head>
+<body>
+<div>
+    <div id="main1" style="width:500px;height:400px;padding-top:20px;"></div>
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <script type="text/javascript">
+        var relace_str=[
+            ["device","设备"],["interface","接口"], ["system","系统"], ["service","服务"], ["bypass","bypass"],
+            ["white_list","白名单"], ["black_list","黑名单"], ["IPMAC","IP/MAC"], ["traffic_alert","流量告警"],
+            ["web_login","用户网页登录"],["command_login","用户命令行登录"],["common","其他一般操作"],
+            ["NA","其他"]
+        ];
+        load_main= function(chartarray) {
+            var datalist=[];
+            for(var p in chartarray){
+                var pval=p;
+                for(i=0;i<relace_str.length;i++){
+                    if(p==relace_str[i][0]){
+                        p=relace_str[i][1];
+                    }
+                }
+                datalist[datalist.length]={value:chartarray[pval],name:p};
+            };
+            //其他放最后
+            for(var j=0;j<datalist.length;j++){
+                if(datalist[j].name=="其他"){
+                    datalist.push(datalist[j]);
+                    datalist.splice(j, 1);
+                }
+            };
+            // 基于准备好的dom，初始化echarts实例
+            var myChart1 = echarts.init(document.getElementById('main1'));
+            // 指定图表的配置项和数据
+            var option1 = {
+                legend:{
+                    left: 'center',
+                    data: datalist
+                },
+                series:[
+                    {
+                        type: 'pie',
+                        radius :  ['30%','40%'],
+                        data:datalist,
+                        label:{
+                            normal: {
+                                formatter: '{b}:{d}%,{c}',
+                                textStyle:{fontSize: 12}
+                            }
+                        }
+                    }
+                ]
+            };
+            // 使用刚指定的配置项和数据显示图表。
+            myChart1.setOption(option1);
+        };
+        load_main(chartarray);
+    </script>
+</div>
+</body>
+</html>

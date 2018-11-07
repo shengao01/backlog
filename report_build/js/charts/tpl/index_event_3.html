@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>ECharts</title>
+    <link rel="stylesheet" href="../libs/jquery/bootstrap/dist/css/bootstrap.css" type="text/css" />
+    <!-- 引入 echarts.js -->
+    <script src="../js/echarts.min.js"></script>
+</head>
+<body>
+<div>
+    <div id="main2" style="width: 800px;height:400px;"></div>
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <script type="text/javascript">
+        load_main = function(chartarray) {
+            var myChart2 = echarts.init(document.getElementById('main2'));
+            //横向柱状图
+            option = {
+                xAxis :{
+                    boundaryGap : false,
+                    data : chartarray.xAxis
+                },
+                yAxis :{
+                    type : 'value'
+                },
+                series : {
+                    type:'line',
+                    data:chartarray.series,
+                    // smooth: true
+                }
+            };
+            myChart2.setOption(option);
+        };
+        load_main(chartarray);
+    </script>
+</div>
+</body>
+</html>
