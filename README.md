@@ -1,2 +1,2 @@
 # backlog
-about report build code
+使用Python reportbuild及phantomjs等模块生成图表及pdf报告文件格式测试.
